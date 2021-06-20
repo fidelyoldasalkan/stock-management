@@ -11,12 +11,13 @@ import java.util.List;
 @NoArgsConstructor
 public class AccountDto extends BaseDto {
 
-    public AccountDto(Integer id, String name, Integer corporationId, Double commissionRate, String corporationName) {
+    public AccountDto(Integer id, String name, Integer corporationId, Double commissionRate, String corporationName, Boolean isDefault) {
         super(id);
         this.name = name;
         this.corporationId = corporationId;
         this.commissionRate = commissionRate;
         this.corporationName = corporationName;
+        this.isDefault = isDefault;
     }
 
     private String name;
@@ -25,5 +26,6 @@ public class AccountDto extends BaseDto {
     private String corporationName;
     private Double amount;
     private List<BaseDateComparableDto> transactionList;
+    private Boolean isDefault;
 
 }

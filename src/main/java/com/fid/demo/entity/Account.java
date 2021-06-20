@@ -15,4 +15,5 @@ public class Account extends BaseEntity {
     private String name;
     private Integer corporationId;
     private Double commissionRate;
+    private Boolean isDefault;
 }

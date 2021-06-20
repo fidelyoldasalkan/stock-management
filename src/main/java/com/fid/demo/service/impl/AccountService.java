@@ -48,7 +48,12 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    @Transactional
     public Account save(Account entity) {
+        if (entity.getIsDefault()) {
+            SimpleUser simpleUser = (SimpleUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            accountRepository.updateNonDefault(simpleUser.getId());
+        }
         return accountRepository.save(entity);
     }
 
