@@ -24,5 +24,6 @@ public class AccountDto extends BaseDto {
     private Double commissionRate;
     private String corporationName;
     private Double amount;
-    private List<MoneyFlowDto> moneyFlowList;
+    private List<BaseDateComparableDto> transactionList;
+
 }

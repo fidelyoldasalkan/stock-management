@@ -8,6 +8,7 @@ import com.fid.demo.repository.ExchangeRepository;
 import com.fid.demo.repository.MoneyFlowRepository;
 import com.fid.demo.service.IAccountService;
 import com.fid.demo.service.dto.AccountDto;
+import com.fid.demo.service.dto.BaseDateComparableDto;
 import com.fid.demo.service.dto.MoneyFlowDto;
 import com.fid.demo.service.dto.SimpleUser;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -58,4 +61,17 @@ public class AccountService implements IAccountService {
         accountRepository.softDelete(id);
     }
 
+    @Override
+    public AccountDto detail(Integer id) {
+        SimpleUser simpleUser = (SimpleUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AccountDto account = accountRepository.findByCreatedBy(id);
+        List<BaseDateComparableDto> list = new ArrayList<>(dividendRepository.findAllByAccountId(account.getId()));
+        list.addAll(exchangeRepository.findAllByAccountId(account.getId()));
+        List<MoneyFlowDto> mfList = moneyFlowRepository.findAllByAccountIdAndCreatedBy(account.getId(), simpleUser.getId());
+        mfList.forEach(mf -> mf.setAccountName(account.getName()));
+        list.addAll(mfList);
+        Collections.sort(list);
+        account.setTransactionList(list);
+        return account;
+    }
 }

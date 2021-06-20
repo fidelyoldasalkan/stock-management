@@ -10,19 +10,17 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class MoneyFlowDto extends BaseDto {
+public class MoneyFlowDto extends BaseDateComparableDto {
 
     private String accountName;
     private MoneyFlowType moneyFlowType;
     private Double amount;
-    private LocalDate date;
 
     public MoneyFlowDto(Integer id, String accountName, MoneyFlowType moneyFlowType, Double amount, LocalDate date) {
-        super(id);
+        super(id, date, "MoneyFlow");
         this.accountName = accountName;
         this.moneyFlowType = moneyFlowType;
         this.amount = amount;
-        this.date = date;
     }
 
 }
