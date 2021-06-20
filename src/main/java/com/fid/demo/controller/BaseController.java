@@ -8,21 +8,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 public abstract class BaseController<T extends BaseEntity, S extends IBaseService<T>> {
 
     protected final S baseService;
 
     @GetMapping("/list")
-    private ResponseEntity<List<?>> findAllByCUser() {
-        return ResponseEntity.ok(baseService.findAllByCreatedBy());
+    private ResponseEntity<GeneralResponse> findAllByCUser() {
+        return ResponseEntity.ok(GeneralResponseBuilder.success(baseService.findAllByCreatedBy()));
     }
 
     @PostMapping("/save")
-    private ResponseEntity<T> save(@RequestBody T entity) {
-        return ResponseEntity.ok(baseService.save(entity));
+    private ResponseEntity<GeneralResponse> save(@RequestBody T entity) {
+        return ResponseEntity.ok(GeneralResponseBuilder.success(baseService.save(entity)));
     }
 
     @DeleteMapping("/delete/{id}")
